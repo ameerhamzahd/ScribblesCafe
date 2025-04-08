@@ -9,11 +9,22 @@ const blogsPromise = fetch('/blogs.json')
 
 function App() {
   const [bookmarkedBlogs, setBookmarkedBlogs] = useState([]);
-
+  const [readingTime, setReadingTime] = useState(0);
   const handleBookmark = (title) => {
     const newBookmarkedBlogs = [...bookmarkedBlogs, title];
     setBookmarkedBlogs(newBookmarkedBlogs);
   };
+
+  const handleMarkAsRead = (time, id) => {
+    const newReadingTime = readingTime + time;
+    setReadingTime(newReadingTime);
+    handleRemoveFromBookmarked(id);
+  }
+
+  const handleRemoveFromBookmarked = (id) => {
+    const remainingBookmarkedBlogs = bookmarkedBlogs.filter(bm => bm.id !== id);
+    setBookmarkedBlogs(remainingBookmarkedBlogs);
+  }
 
   return (
     <>
@@ -21,12 +32,12 @@ function App() {
 
       <div className="main-container grid grid-cols-4 text-center">
         <div className="left-container col-span-3">
-          <Blogs blogsPromise={blogsPromise} handleBookmark={handleBookmark}></Blogs>
+          <Blogs blogsPromise={blogsPromise} handleBookmark={handleBookmark} handleMarkAsRead={handleMarkAsRead}></Blogs>
 
         </div>
 
         <div className="right-container col-span-1">
-          <Activity></Activity>
+          <Activity bookmarkedBlogs={bookmarkedBlogs} readingTime={readingTime}></Activity>
 
           <div>
             {

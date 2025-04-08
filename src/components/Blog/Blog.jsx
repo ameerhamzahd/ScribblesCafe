@@ -2,8 +2,8 @@ import React from 'react';
 import { FaBookmark } from "react-icons/fa";
 import Hashtag from '../Hashtag/Hashtag';
 
-const Blog = ({ blog, handleBookmark }) => {
-    const { title, author, author_img, cover, posted_date, reading_time, hashtags } = blog;
+const Blog = ({ blog, handleBookmark, handleMarkAsRead }) => {
+    const { id, title, author, author_img, cover, posted_date, reading_time, hashtags } = blog;
 
     return (
         <div>
@@ -24,11 +24,11 @@ const Blog = ({ blog, handleBookmark }) => {
                     <p>{reading_time}min read</p>
                     <div className='flex gap-2 justify-center'>
                         {
-                            hashtags.map(hashtag => <Hashtag key={hashtag.id} hashtag={hashtag}></Hashtag>)
+                            hashtags.map(hashtag => <Hashtag key={hashtag} hashtag={hashtag}></Hashtag>)
                         }
-                    </div>
+                    </div> 
                     <div className="card-actions justify-end">
-                        <button className="btn btn-primary">Mark as read</button>
+                        <button onClick={() => handleMarkAsRead(reading_time, id)} className="btn btn-primary">Mark as read</button>
                     </div>
                 </div>
             </div>
